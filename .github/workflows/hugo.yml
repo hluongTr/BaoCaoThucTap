@@ -44,6 +44,21 @@ jobs:
           assert 'Student information' in home, 'English report content missing'
           assert len(list(Path('public/en').rglob('index.html'))) >= 29, 'English sections missing'
           print('Verified 29 translated report pages and rendered English homepage')
+          from html.parser import HTMLParser
+          class HeadingCounter(HTMLParser):
+              def __init__(self):
+                  super().__init__()
+                  self.count = 0
+              def handle_starttag(self, tag, attrs):
+                  if tag == 'h1':
+                      self.count += 1
+          for language in ('', 'en'):
+              for section in ('1-worklog', '5-self-evaluation'):
+                  page = Path('public') / language / section / 'index.html'
+                  parser = HeadingCounter()
+                  parser.feed(page.read_text(encoding='utf-8'))
+                  assert parser.count == 1, f'{page}: expected one title, found {parser.count}'
+          print('Verified single headings in Worklog and Self-evaluation in both languages')
           PY
 
       - name: Deploy to GitHub Pages
