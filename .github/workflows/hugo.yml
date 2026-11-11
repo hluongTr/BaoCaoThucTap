@@ -29,6 +29,23 @@ jobs:
       - name: Build website
         run: hugo --minify
 
+      - name: Verify English report
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          english = list(Path('content').rglob('_index.en.md'))
+          vietnamese = list(Path('content').rglob('_index.vi.md'))
+          assert len(english) == len(vietnamese) == 29, 'Missing translated pages'
+          for page in vietnamese:
+              assert page.with_name('_index.en.md').is_file(), f'Missing English page: {page}'
+          home = Path('public/en/index.html').read_text(encoding='utf-8')
+          assert 'Customize your own home page' not in home, 'English theme fallback rendered'
+          assert 'Student information' in home, 'English report content missing'
+          assert len(list(Path('public/en').rglob('index.html'))) >= 29, 'English sections missing'
+          print('Verified 29 translated report pages and rendered English homepage')
+          PY
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
