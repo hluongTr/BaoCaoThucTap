@@ -6,8 +6,6 @@ chapter: false
 pre: " <b> 4.1. </b> "
 ---
 
-# Tổng quan triển khai CloudDocs trên AWS
-
 ## Giới thiệu
 
 CloudDocs là hệ thống quản lý tài liệu doanh nghiệp đã được xây dựng và tích hợp với các dịch vụ AWS. Dự án sử dụng Amazon EC2 cho môi trường ứng dụng, Amazon RDS MySQL để quản lý dữ liệu nghiệp vụ, Amazon S3 để lưu trữ tài liệu riêng tư và Amazon Cognito để xác thực người dùng.

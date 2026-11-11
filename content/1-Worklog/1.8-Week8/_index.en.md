@@ -7,8 +7,6 @@ chapter: false
 pre: " <b> 1.8. </b> "
 ---
 
-# Worklog Week 8
-
 ## Amazon RDS and MySQL databases
 
 **Period:** 28/09/2026–02/10/2026.

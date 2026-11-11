@@ -6,8 +6,6 @@ chapter: false
 pre: " <b> 4. </b> "
 ---
 
-# Deploying CloudDocs on AWS
-
 This workshop guides independent study and practical work from preparation through testing and handover, following the project's architecture: **EC2/Nginx + Spring Boot + RDS MySQL + private S3 + Cognito**.
 
 | Section | Topic |

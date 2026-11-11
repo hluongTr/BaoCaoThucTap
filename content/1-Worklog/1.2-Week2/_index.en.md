@@ -7,8 +7,6 @@ chapter: false
 pre: " <b> 1.2. </b> "
 ---
 
-# Worklog Week 2
-
 ## AWS IAM and access management
 
 **Period:** 17/08/2026–21/08/2026.

@@ -7,8 +7,6 @@ chapter: false
 pre: " <b> 1.1. </b> "
 ---
 
-# Worklog Week 1
-
 ## AWS accounts, Budgets and Support
 
 **Period:** 10/08/2026–14/08/2026.

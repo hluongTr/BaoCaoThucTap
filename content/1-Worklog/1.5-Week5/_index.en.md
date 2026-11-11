@@ -7,8 +7,6 @@ chapter: false
 pre: " <b> 1.5. </b> "
 ---
 
-# Worklog Week 5
-
 ## Managing EC2, EBS and snapshots
 
 **Period:** 07/09/2026–11/09/2026.

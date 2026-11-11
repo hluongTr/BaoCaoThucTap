@@ -7,8 +7,6 @@ chapter: false
 pre: " <b> 1.7. </b> "
 ---
 
-# Worklog Week 7
-
 ## S3 security, CORS and presigned URLs
 
 **Period:** 21/09/2026–25/09/2026.

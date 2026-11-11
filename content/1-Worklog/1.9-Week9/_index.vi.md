@@ -7,8 +7,6 @@ chapter: false
 pre: " <b> 1.9. </b> "
 ---
 
-# Worklog Tuần 9
-
 ## Sao lưu và bảo mật Amazon RDS
 
 **Thời gian:** 05/10/2026–09/10/2026.

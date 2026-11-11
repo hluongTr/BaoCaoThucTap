@@ -6,8 +6,6 @@ chapter: false
 pre: " <b> 1. </b> "
 ---
 
-# Worklog
-
 This worklog records **twelve learning weeks (10 August–30 October 2026)** during the Amazon Web Services internship. It focuses on First Cloud AI Journey materials and understanding AWS service functions, components, configuration, security and costs.
 
 **Week 1:** [Understood AWS accounts, budgeting and support](1.1-Week1/)

@@ -7,8 +7,6 @@ chapter: false
 pre: " <b> 1.5. </b> "
 ---
 
-# Worklog Tuần 5
-
 ## Quản lý EC2, EBS và Snapshot
 
 **Thời gian:** 07/09/2026–11/09/2026.

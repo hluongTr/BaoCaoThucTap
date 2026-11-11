@@ -7,8 +7,6 @@ chapter: false
 pre: " <b> 1.10. </b> "
 ---
 
-# Worklog Tuần 10
-
 ## Amazon Cognito và quản lý người dùng
 
 **Thời gian:** 12/10/2026–16/10/2026.

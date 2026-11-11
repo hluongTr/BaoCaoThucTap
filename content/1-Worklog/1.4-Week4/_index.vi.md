@@ -7,8 +7,6 @@ chapter: false
 pre: " <b> 1.4. </b> "
 ---
 
-# Worklog Tuần 4
-
 ## Amazon EC2 và máy chủ ảo
 
 **Thời gian:** 31/08/2026–04/09/2026.

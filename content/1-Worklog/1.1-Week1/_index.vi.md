@@ -7,8 +7,6 @@ chapter: false
 pre: " <b> 1.1. </b> "
 ---
 
-# Worklog Tuần 1
-
 ## Tài khoản AWS, Budgets và Support
 
 **Thời gian:** 10/08/2026–14/08/2026.

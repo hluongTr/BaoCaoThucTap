@@ -7,8 +7,6 @@ chapter: false
 pre: " <b> 1.3. </b> "
 ---
 
-# Worklog Week 3
-
 ## Amazon VPC and network components
 
 **Period:** 24/08/2026–28/08/2026.

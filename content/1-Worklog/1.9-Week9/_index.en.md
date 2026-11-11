@@ -7,8 +7,6 @@ chapter: false
 pre: " <b> 1.9. </b> "
 ---
 
-# Worklog Week 9
-
 ## Amazon RDS backups and security
 
 **Period:** 05/10/2026–09/10/2026.

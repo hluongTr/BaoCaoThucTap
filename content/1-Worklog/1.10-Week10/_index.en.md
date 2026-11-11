@@ -7,8 +7,6 @@ chapter: false
 pre: " <b> 1.10. </b> "
 ---
 
-# Worklog Week 10
-
 ## Amazon Cognito and user management
 
 **Period:** 12/10/2026–16/10/2026.

@@ -6,8 +6,6 @@ chapter: false
 pre: " <b> 4.1. </b> "
 ---
 
-# CloudDocs deployment overview on AWS
-
 ## Introduction
 
 CloudDocs is an enterprise document management system that has been developed and integrated with AWS services. The project uses Amazon EC2 for the application environment, Amazon RDS MySQL for business data, Amazon S3 for private document storage and Amazon Cognito for user authentication.

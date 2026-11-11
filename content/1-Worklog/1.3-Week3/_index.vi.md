@@ -7,8 +7,6 @@ chapter: false
 pre: " <b> 1.3. </b> "
 ---
 
-# Worklog Tuần 3
-
 ## Amazon VPC và các thành phần mạng
 
 **Thời gian:** 24/08/2026–28/08/2026.

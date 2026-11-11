@@ -7,8 +7,6 @@ chapter: false
 pre: " <b> 1.11. </b> "
 ---
 
-# Worklog Week 11
-
 ## Cognito authentication flows and JWTs
 
 **Period:** 19/10/2026–23/10/2026.

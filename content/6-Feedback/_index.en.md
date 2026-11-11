@@ -6,8 +6,6 @@ chapter: false
 pre: " <b> 6. </b> "
 ---
 
-# Feedback and suggestions
-
 This section presents my personal reflections (**Trần Hải Lương**) after my internship in the **First Cloud AI Journey (FCAJ)** program at AWS Vietnam. As an Information Technology student, I saw this as an opportunity to strengthen my knowledge, become familiar with cloud computing and apply what I learned to CloudDocs.
 
 ## Assessment by aspect

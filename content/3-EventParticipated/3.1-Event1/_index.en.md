@@ -6,8 +6,6 @@ chapter: false
 pre: " <b> 3.1. </b> "
 ---
 
-# Event 1
-
 | Field | Details |
 | --- | --- |
 | Event name | Mini Meetup – First Cloud AI Journey |

@@ -7,8 +7,6 @@ chapter: false
 pre: " <b> 1.11. </b> "
 ---
 
-# Worklog Tuần 11
-
 ## Luồng xác thực Cognito và JWT
 
 **Thời gian:** 19/10/2026–23/10/2026.

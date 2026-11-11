@@ -7,8 +7,6 @@ chapter: false
 pre: " <b> 1.7. </b> "
 ---
 
-# Worklog Tuần 7
-
 ## Bảo mật S3, CORS và Presigned URL
 
 **Thời gian:** 21/09/2026–25/09/2026.

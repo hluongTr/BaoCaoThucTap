@@ -6,8 +6,6 @@ chapter: false
 pre: " <b> 4. </b> "
 ---
 
-# Triển khai CloudDocs trên AWS
-
 Workshop hướng dẫn tự tìm hiểu và thực hành từ chuẩn bị đến kiểm thử, bàn giao theo kiến trúc của đồ án: **EC2/Nginx + Spring Boot + RDS MySQL + S3 private + Cognito**.
 
 | Mục | Nội dung |

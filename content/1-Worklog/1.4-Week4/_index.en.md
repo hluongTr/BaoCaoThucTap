@@ -7,8 +7,6 @@ chapter: false
 pre: " <b> 1.4. </b> "
 ---
 
-# Worklog Week 4
-
 ## Amazon EC2 and virtual servers
 
 **Period:** 31/08/2026–04/09/2026.

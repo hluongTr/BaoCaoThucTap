@@ -6,8 +6,6 @@ chapter: false
 pre: " <b> 6. </b> "
 ---
 
-# Chia sẻ, đóng góp ý kiến
-
 Phần này ghi lại cảm nhận cá nhân của em (**Trần Hải Lương**) sau kỳ thực tập trong chương trình **First Cloud AI Journey (FCAJ)** tại AWS Việt Nam. Với nền tảng là sinh viên Công nghệ thông tin, em xem đây là cơ hội để củng cố kiến thức, làm quen với môi trường điện toán đám mây và vận dụng vào dự án CloudDocs.
 
 ## Đánh giá theo từng khía cạnh

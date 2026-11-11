@@ -6,8 +6,6 @@ chapter: false
 pre: " <b> 1. </b> "
 ---
 
-# Nhật kí công việc
-
 Worklog ghi lại **12 tuần học tập (10/08/2026–30/10/2026)** trong quá trình thực tập tại Amazon Web Services. Nội dung tập trung đọc tài liệu First Cloud AI Journey, tìm hiểu chức năng, thành phần, cách cấu hình, bảo mật và chi phí của các dịch vụ AWS.
 
 **Tuần 1:** [Hiểu tài khoản AWS, quản lý ngân sách và tìm kiếm hỗ trợ](1.1-Week1/)

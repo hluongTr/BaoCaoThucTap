@@ -7,8 +7,6 @@ chapter: false
 pre: " <b> 1.2. </b> "
 ---
 
-# Worklog Tuần 2
-
 ## AWS IAM và quản lý quyền truy cập
 
 **Thời gian:** 17/08/2026–21/08/2026.

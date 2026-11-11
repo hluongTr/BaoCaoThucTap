@@ -7,8 +7,6 @@ chapter: false
 pre: " <b> 1.12. </b> "
 ---
 
-# Worklog Week 12
-
 ## Relationships between AWS services
 
 **Period:** 26/10/2026–30/10/2026.

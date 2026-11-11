@@ -6,8 +6,6 @@ chapter: false
 pre: " <b> 5. </b> "
 ---
 
-# Self-evaluation
-
 My name is **Trần Hải Lương**, class **K68CNTTA**. I undertook my internship in the **First Cloud AI Journey program at AWS Vietnam**, from **10 August 2026 to 30 October 2026**.
 
 My objectives were to strengthen my AWS foundations, develop independent learning skills and connect my knowledge with the CloudDocs document management system. By studying IAM, VPC, EC2, S3, RDS and Cognito, I gradually understood how components work together in an application with authentication, storage and authorization.

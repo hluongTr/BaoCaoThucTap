@@ -6,8 +6,6 @@ chapter: false
 pre: " <b> 5. </b> "
 ---
 
-# Tự đánh giá
-
 Em là **Trần Hải Lương**, lớp **K68CNTTA**, thực tập trong chương trình **First Cloud AI Journey tại AWS Việt Nam**, thời gian **10/08/2026–30/10/2026**.
 
 Mục tiêu của em là củng cố kiến thức nền tảng về AWS, rèn luyện khả năng tự học và liên hệ kiến thức với hệ thống quản lý tài liệu CloudDocs. Qua việc tìm hiểu IAM, VPC, EC2, S3, RDS và Cognito, em từng bước hiểu cách các thành phần phối hợp trong một ứng dụng có xác thực, lưu trữ và phân quyền.

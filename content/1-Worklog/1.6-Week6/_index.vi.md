@@ -7,8 +7,6 @@ chapter: false
 pre: " <b> 1.6. </b> "
 ---
 
-# Worklog Tuần 6
-
 ## Amazon S3 và AWS CLI
 
 **Thời gian:** 14/09/2026–18/09/2026.

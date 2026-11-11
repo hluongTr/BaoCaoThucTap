@@ -7,8 +7,6 @@ chapter: false
 pre: " <b> 1.12. </b> "
 ---
 
-# Worklog Tuần 12
-
 ## Mối liên hệ giữa các dịch vụ AWS
 
 **Thời gian:** 26/10/2026–30/10/2026.
