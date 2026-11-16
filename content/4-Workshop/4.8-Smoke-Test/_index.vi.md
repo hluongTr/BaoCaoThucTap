@@ -58,9 +58,12 @@ Bảng dưới tổng hợp những gì minh chứng đang lưu thể hiện và
 | S3 riêng tư | Chặn public, SSE-S3 và có object trong documents/ | H01–H07; chưa đối chiếu cùng một tệp xuyên suốt DB/S3/giao diện |
 | Đăng nhập và thao tác tài liệu | Có phiên admin; ảnh tải lên, xem trước TXT và tải xuống | K01, K02a–K02c; chưa chứng minh cơ chế upload mới hoặc thử lại requestId trên bản triển khai |
 | Chia sẻ, thùng rác và khôi phục | Có giao diện quyền khác nhau; cùng tệp chuyển vào thùng rác rồi khôi phục | K03–K05; từ chối API và URL sau thu hồi cần kiểm thử riêng |
-| Nộp và duyệt báo cáo | Cùng công việc chuyển Chờ duyệt → Hoàn thành | K07–K08; chưa minh họa yêu cầu sửa, nộp muộn hoặc xung đột hai tab |
+| Nộp và duyệt báo cáo | Cùng công việc chuyển Chờ duyệt → Hoàn thành; danh sách bổ sung có nhãn Nộp muộn | K07–K08, K18; chưa minh họa chuỗi yêu cầu sửa/nộp lại, đối chiếu thời gian nộp hoặc xung đột hai tab |
 | Quản trị, dung lượng, audit, tìm kiếm | Có màn hình người dùng, thống kê, lịch sử và tìm theo tên | K09–K12; số liệu là dữ liệu tại thời điểm chụp |
-| MANAGER, phòng ban, thư mục, Đã chia sẻ, ghi đè | Đã có triển khai và các tệp kiểm thử tương ứng trong mã nguồn | Chưa có ảnh/kết quả chạy bổ sung trong báo cáo; cần kiểm thử theo bảng kịch bản |
+| Phòng ban và hồ sơ | Hiển thị danh sách phòng ban đang sử dụng; hồ sơ admin có avatar và các trường cập nhật | K13, K17; chưa có cặp ảnh trước/sau thao tác thêm/sửa/ngừng sử dụng hoặc lưu hồ sơ |
+| Thư mục và Đã chia sẻ | Thư mục 123 chứa ba tài liệu; danh sách có bốn quyền chia sẻ cho hai người nhận | K14–K15; chưa xác minh di chuyển giữ nguyên quyền hoặc kết quả đổi/thu hồi quyền |
+| Ghi đè nội dung | Hộp sửa tài liệu có vùng chọn tệp thay thế và hướng dẫn bảo vệ báo cáo | K16; chưa có kết quả lưu hoặc đối chiếu nội dung trước/sau ghi đè |
+| MANAGER và kiểm soát quyền | Đã có triển khai và các tệp kiểm thử tương ứng trong mã nguồn | K13–K18 đều ở phiên admin; cần kiểm thử cùng/khác phòng ban bằng MANAGER/USER |
 | HTTPS, giám sát, phục hồi và chi phí | Đã có hướng dẫn và kế hoạch vận hành | Chưa có kết quả nghiệm thu HTTPS, CloudWatch, restore hoặc hóa đơn trong bộ minh chứng hiện có |
 
 Kết quả hiện có minh họa được các chức năng nghiệp vụ cốt lõi và từng thành phần AWS. Để nghiệm thu phiên bản mới, cần ghi commit/JAR và chạy lại kịch bản trên cùng môi trường; bổ sung kết quả thực đo thay vì suy ra từ ảnh của phiên bản trước.
@@ -162,3 +165,39 @@ Mở Nhật ký hoạt động. Ảnh ghi nhận người thực hiện và th�
 Nhập DeCuong trong ô tìm tài liệu. Hai kết quả có tên phù hợp được hiển thị; ảnh chứng minh kết quả tìm kiếm theo tên, chưa minh họa lọc theo loại hoặc phòng ban.
 
 ![K12. Tìm kiếm tài liệu](/images/workshop-evidence/04-kiem-thu-tich-hop/k12-document-search-filter.png)
+
+### K13. Quản lý phòng ban
+
+Trong phiên admin, mở Phòng ban. Ảnh hiển thị bốn phòng ban admin, Kinh Doanh, Kỹ thuật và Nhân sự ở trạng thái Đang sử dụng, hình thức gán là Admin gán. Giao diện có ô thêm phòng ban, lựa chọn Cho nhân viên tự chọn và các nút Sửa, Ngừng sử dụng, Xóa. Đây là minh chứng danh sách và các thao tác được cung cấp; ảnh chưa ghi nhận kết quả thực hiện từng thao tác.
+
+![K13. Quản lý phòng ban](/images/workshop-evidence/04-kiem-thu-tich-hop/k13-department-management.png)
+
+### K14. Tài liệu trong thư mục
+
+Mở thư mục 123 trong mục Tài liệu. Đường dẫn Tài liệu → 123 và ba tệp bên trong được hiển thị, cùng nút tạo thư mục, chuyển vào thư mục và các thao tác theo tệp. Thanh phân trang ghi 1–3 / 3 mục ở trang 1. Ảnh minh họa việc duyệt thư mục và giao diện phân trang; chưa chứng minh chuyển trang với hơn 20 mục hoặc di chuyển tệp thành công. Các tệp SQL trong danh sách là tài liệu được lưu trong ứng dụng, không chứng minh đã thực thi SQL hay reset database.
+
+![K14. Tài liệu trong thư mục](/images/workshop-evidence/04-kiem-thu-tich-hop/k14-folder-documents.png)
+
+### K15. Theo dõi quyền tại Đã chia sẻ
+
+Mở Đã chia sẻ bằng admin. Thống kê hiển thị 4 tài liệu, 2 người nhận và 4 quyền đang cấp. Các dòng ghi người nhận, phòng ban Nhân sự, thời điểm chia sẻ và quyền Xem hoặc Chỉnh sửa; mỗi dòng có bộ chọn quyền và nút Thu hồi. Giao diện còn hỗ trợ chọn nhiều quyền để thu hồi. Ảnh minh họa quyền đang được liệt kê; cần đối chiếu sau thao tác và bằng tài khoản người nhận để xác nhận đổi/thu hồi quyền có hiệu lực.
+
+![K15. Theo dõi quyền tại Đã chia sẻ](/images/workshop-evidence/04-kiem-thu-tich-hop/k15-sent-shares.png)
+
+### K16. Hộp chỉnh sửa và ghi đè nội dung
+
+Tại cùng thư mục 123 ở K14, mở Sửa đối với HUONG_DAN_CHUP_ANH_WORKSHOP (1).docx, Document #57. Hộp thoại cho phép sửa tên, phòng ban, mô tả, trạng thái và chọn tệp thay thế tùy chọn tại vùng Ghi đè nội dung tệp. Hướng dẫn trên giao diện nêu giới hạn 100 MB và không cho ghi đè báo cáo đang chờ duyệt hoặc đã hoàn thành. Ảnh chưa có tệp thay thế được chọn hoặc thông báo lưu thành công, vì vậy chỉ ghi nhận giao diện chuẩn bị chỉnh sửa.
+
+![K16. Hộp chỉnh sửa và ghi đè nội dung](/images/workshop-evidence/04-kiem-thu-tich-hop/k16-document-replacement-dialog.png)
+
+### K17. Hồ sơ cá nhân và avatar
+
+Mở Hồ sơ cá nhân. Ảnh hiển thị avatar, các nút Chọn ảnh/Lưu ảnh/Xóa ảnh, tên đăng nhập nội bộ cố định và các trường họ tên, email, phòng ban. Phần thông tin quyền ghi ADMIN, trạng thái Đang hoạt động. Giao diện hướng dẫn dùng JPG/PNG tối đa 5 MB và cắt vuông ở giữa. Ảnh minh họa hồ sơ hiện có và các lựa chọn cập nhật; chưa có cặp ảnh trước/sau hoặc thông báo xác nhận lưu thay đổi.
+
+![K17. Hồ sơ cá nhân và avatar](/images/workshop-evidence/04-kiem-thu-tich-hop/k17-profile-avatar.png)
+
+### K18. Tổng hợp trạng thái công việc và nộp muộn
+
+Mở Công việc, chọn phạm vi Đã giao. Ảnh ghi nhận 4 công việc, 1 Chờ duyệt và 0 Quá hạn; các dòng lần lượt có trạng thái Chưa bắt đầu, Đang thực hiện, Chờ duyệt và Hoàn thành. Công việc VCB ở dòng cuối có thêm nhãn Nộp muộn, minh họa việc hiển thị đồng thời trạng thái hoàn thành và dấu hiệu nộp trễ. Đây là danh sách các công việc khác nhau, không phải chuỗi chuyển trạng thái của cùng một công việc; cần ảnh chi tiết hạn nộp/thời gian nộp để kiểm chứng cách xác định nộp muộn.
+
+![K18. Tổng hợp trạng thái công việc và nộp muộn](/images/workshop-evidence/04-kiem-thu-tich-hop/k18-task-status-late.png)

@@ -28,4 +28,3 @@ The application runs in the recorded environment; authentication works; upload/p
 
 - [First Cloud AI Journey](https://cloudjourney.awsfcaj.com/)
 - [AWS Documentation](https://docs.aws.amazon.com/)
-- The internship outline and CloudDocs technical documentation.

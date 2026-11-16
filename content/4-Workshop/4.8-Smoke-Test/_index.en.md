@@ -58,9 +58,12 @@ The table below summarizes what the stored evidence demonstrates and what still 
 | Private S3 | Public access blocked, SSE-S3 and objects under documents/ | H01–H07; no single file traced across DB/S3/interface |
 | Sign-in and file operations | Admin session; upload, TXT preview and download screenshots | K01, K02a–K02c; current upload implementation and requestId retry on the deployed release remain unverified |
 | Sharing, trash and restoration | Different permission controls; the same file trashed and restored | K03–K05; API rejection and URLs after revocation require separate tests |
-| Report submission and approval | The same task moves from Pending approval to Completed | K07–K08; change requests, late submission and two-tab conflicts are not illustrated |
+| Report submission and approval | The same task moves from Pending approval to Completed; an additional list displays a Late submission label | K07–K08, K18; the change-request/resubmission sequence, submission timestamps and two-tab conflicts are not illustrated |
 | Administration, storage, audit and search | User, statistics, activity and filename search screens | K09–K12; figures reflect capture-time data |
-| MANAGER, departments, folders, Sent shares and replacement | Implementations and corresponding test files exist in the source | No additional screenshots/execution results in this report; verify using the scenario table |
+| Departments and profiles | Active departments are listed; the admin profile displays an avatar and editable fields | K13, K17; no before/after pair for adding/editing/deactivating departments or saving a profile |
+| Folders and Sent shares | Folder 123 contains three documents; four sharing grants are listed for two recipients | K14–K15; preservation of permissions after moving and the outcome of changing/revoking grants remain unverified |
+| Content replacement | The edit dialog provides a replacement file selector and report-protection guidance | K16; no save result or before/after content comparison |
+| MANAGER and access control | Implementations and corresponding test files exist in the source | K13–K18 all show an admin session; same/different department tests with MANAGER/USER remain necessary |
 | HTTPS, monitoring, recovery and costs | Operational instructions and plans are documented | Existing evidence contains no acceptance results for HTTPS, CloudWatch, restoration or billing |
 
 Existing results illustrate core business functions and individual AWS components. Acceptance of the new release requires recording its commit/JAR and rerunning scenarios in the same environment; add measured outcomes rather than inferring them from earlier screenshots.
@@ -162,3 +165,39 @@ Open Activity log. The screenshot records actors and timestamps for upload, dele
 Enter DeCuong in document search. Two matching filenames appear. The screenshot illustrates filename search, not filtering by file type or department.
 
 ![K12. Document search](/images/workshop-evidence/04-kiem-thu-tich-hop/k12-document-search-filter.png)
+
+### K13. Department management
+
+In an admin session, open Departments. Four departments—admin, Kinh Doanh, Kỹ thuật and Nhân sự—are listed as active and assigned by admin. The interface includes a department creation field, an employee self-selection option and Edit, Deactivate and Delete buttons. This demonstrates the list and available controls; the screenshot does not record the outcome of each operation.
+
+![K13. Department management](/images/workshop-evidence/04-kiem-thu-tich-hop/k13-department-management.png)
+
+### K14. Documents inside a folder
+
+Open folder 123 under Documents. The Documents → 123 breadcrumb and three files are displayed, alongside folder creation, move-to-folder and per-file controls. Pagination reads 1–3 / 3 items on page 1. This illustrates folder browsing and pagination controls, without demonstrating paging over more than 20 items or a successful move. SQL files in the list are documents stored in the application; their presence does not demonstrate SQL execution or a database reset.
+
+![K14. Documents inside a folder](/images/workshop-evidence/04-kiem-thu-tich-hop/k14-folder-documents.png)
+
+### K15. Tracking permissions in Sent shares
+
+Open Sent shares as admin. The summary displays 4 documents, 2 recipients and 4 active grants. Rows show recipients, the Nhân sự department, sharing times and View or Edit access; each row includes a permission selector and Revoke button. Multiple grants can also be selected for revocation. The screenshot illustrates listed grants; verify the subsequent state and recipient access to confirm that changes/revocations take effect.
+
+![K15. Tracking permissions in Sent shares](/images/workshop-evidence/04-kiem-thu-tich-hop/k15-sent-shares.png)
+
+### K16. Document editing and content replacement dialog
+
+In the same folder 123 as K14, open Edit for HUONG_DAN_CHUP_ANH_WORKSHOP (1).docx, Document #57. The dialog offers name, department, description and status fields, plus an optional replacement file selector. Interface guidance states a 100 MB limit and prohibits replacement of reports pending approval or already completed. No replacement file is selected and no save confirmation is shown, so the screenshot records the editing interface before submission.
+
+![K16. Document editing and content replacement dialog](/images/workshop-evidence/04-kiem-thu-tich-hop/k16-document-replacement-dialog.png)
+
+### K17. Personal profile and avatar
+
+Open Personal profile. The screenshot displays an avatar, Choose/Save/Delete image buttons, a fixed internal username and name, email and department fields. Account information shows ADMIN and Active status. Interface guidance accepts JPG/PNG up to 5 MB with a centered square crop. The screenshot illustrates an existing profile and update controls; no before/after pair or save confirmation is provided.
+
+![K17. Personal profile and avatar](/images/workshop-evidence/04-kiem-thu-tich-hop/k17-profile-avatar.png)
+
+### K18. Task status summary and late submission
+
+Open Tasks with the Assigned by me scope. The screenshot records 4 tasks, 1 Pending approval and 0 Overdue; individual rows show Not started, In progress, Pending approval and Completed. The final VCB task also has a Late submission label, illustrating completed status alongside a late-submission indicator. These are different tasks rather than one task moving through all states; deadline/submission details are needed to verify the late-submission calculation.
+
+![K18. Task status summary and late submission](/images/workshop-evidence/04-kiem-thu-tich-hop/k18-task-status-late.png)

@@ -28,4 +28,3 @@ Workshop hướng dẫn tự tìm hiểu và thực hành từ chuẩn bị đ�
 
 - [First Cloud AI Journey](https://cloudjourney.awsfcaj.com/)
 - [AWS Documentation](https://docs.aws.amazon.com/)
-- Đề cương thực tập chuyên ngành và tài liệu kỹ thuật CloudDocs.
