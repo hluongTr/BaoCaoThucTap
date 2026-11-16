@@ -28,6 +28,8 @@ Backend kiểm tra chữ ký JWT, issuer, thời gian hiệu lực, token_use=ac
 
 Tài khoản mới là USER; bootstrap ADMIN đầu tiên theo template Back_end/db/bootstrap-cognito-admin.sql sau khi rà soát, không sửa trực tiếp dữ liệu trên DB dùng chung tùy tiện. Template mặc định có mục tiêu NULL/ROLLBACK để người vận hành kiểm tra trước.
 
+Vai trò ADMIN/MANAGER/USER do ứng dụng quản lý trong MySQL, không suy ra từ trạng thái Cognito. MANAGER phải được gán phòng ban; quyền xem tài liệu cùng phòng dựa vào phòng ban hiện tại của chủ sở hữu, không tự cấp quyền tải/sửa/chia sẻ/xóa.
+
 ## 4. Kiểm thử
 
 Đăng nhập, callback, GET /api/auth/me, đăng xuất. Kiểm tra token thiếu/sai/hết hạn bị từ chối; USER không gọi được API quản trị; tài khoản khóa/DELETED không còn truy cập nghiệp vụ. Logout không làm mọi bản sao access token mất hiệu lực ngay; không mô tả khác khả năng hiện tại.
@@ -64,6 +66,6 @@ Mở Branding → Domain, lấy domain của pool để đồng bộ cấu hình
 
 ### S06. Người dùng thử trong Cognito
 
-Mở Users để đối chiếu tài khoản, Email verified, Confirmation status và trạng thái Enabled. Role ADMIN/USER của CloudDocs được quản lý trong dữ liệu ứng dụng, không được suy ra từ trạng thái Confirmed của Cognito.
+Mở Users để đối chiếu tài khoản, Email verified, Confirmation status và trạng thái Enabled. Role ADMIN/MANAGER/USER của CloudDocs được quản lý trong dữ liệu ứng dụng, không được suy ra từ trạng thái Confirmed của Cognito.
 
 ![S06. Người dùng thử trong Cognito](/images/workshop-evidence/02-sang-cognito/s06-cognito-test-users.png)

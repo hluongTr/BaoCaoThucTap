@@ -54,6 +54,7 @@ Example **inside an HTTPS server with a valid certificate**; replace the domain,
 ~~~nginx
 root /var/www/clouddocs;
 index index.html;
+client_max_body_size 101m;
 
 location / {
     try_files $uri $uri/ =404;
@@ -65,6 +66,8 @@ location /api/ {
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 }
 ~~~
+
+Upload and replacement pass through the backend. The Nginx limit of 101 MiB accommodates a 100 MiB file plus multipart overhead; align the Spring Boot limits. Test uploads through the actual deployment origin to detect HTTP 413 and timeout issues before acceptance.
 
 Copy the **contents of FrontEnd** into the web root in this example. If the callback uses /FrontEnd/, preserve that prefix in directory/Nginx configuration; changing Cognito alone is insufficient. Set API_BASE for the actual hostname/backend. Run nginx -t before reloading. Redirect port 80 to HTTPS according to environment policy; a domain/certificate is a prerequisite rather than an assumed existing resource.
 

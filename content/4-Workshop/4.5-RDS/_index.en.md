@@ -25,8 +25,12 @@ The repository **does not include a complete empty-database installer**. Use a v
 | 4 | 04_APPLY_cognito_identities.sql | issuer/sub identity mapping |
 | 5 | 05_APPLY_optional_contact_email.sql | Optional contact email |
 | 6 | 06_APPLY_work_tasks.sql | Work tasks and recipient notifications; part of the November update |
+| 7 | 07_APPLY_departments_avatars.sql | Departments and avatars |
+| 8 | 08_APPLY_document_folders.sql | Document folder hierarchy; existing files remain at the root |
 
 Apply only missing steps after backing up and preflighting the correct database. Migration 04 and share-cognito-identities.sql are alternative ways to create the same table; do not run them consecutively. MySQL DDL may commit automatically, so ROLLBACK does not undo every ALTER/CREATE.
+
+Migration 08 is required for folders and differs from the optional audit cleanup script in Back_end/db. MANAGER, Sent shares and content replacement require no new migration after 07; folders still require 08.
 
 ## 4. Connect the application
 

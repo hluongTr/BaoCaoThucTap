@@ -20,7 +20,7 @@ Example for S3 Console → Permissions → CORS; replace the origin:
 [
   {
     "AllowedHeaders": ["*"],
-    "AllowedMethods": ["GET", "HEAD", "PUT"],
+    "AllowedMethods": ["GET", "HEAD"],
     "AllowedOrigins": ["https://YOUR_FRONTEND_HOST"],
     "ExposeHeaders": ["ETag"],
     "MaxAgeSeconds": 3600
@@ -29,6 +29,8 @@ Example for S3 Console → Permissions → CORS; replace the origin:
 ~~~
 
 The Console expects the **array of rules** shown above. AWS CLI JSON wraps rules in a CORSRules object, as in the repository example. For local development, add the exact active origin, such as http://localhost:5500 or http://127.0.0.1:5500. CORS does not replace IAM or make a bucket public.
+
+The current upload flow passes through the backend and does not depend on S3 CORS; direct preview/download still requires appropriate CORS. Backend PutObject permission comes from IAM/bucket policies. The older practice configuration in H04 also allows PUT; this is not required for the current upload flow.
 
 ## 3. Backend configuration
 
@@ -40,17 +42,17 @@ The Console expects the **array of rules** shown above. AWS CLI JSON wraps rules
 
 ## 4. Test the normal workflow
 
-1. Sign in and create metadata with POST /api/documents.
-2. Call POST /api/documents/{id}/upload-url; use the current UI/DTO rather than guessing JSON fields.
-3. The frontend sends the File with PUT to the S3 URL, preserving signed headers.
-4. Call POST /api/documents/{id}/upload-complete; the backend verifies the object with HEAD and confirms its size.
-5. Request GET preview-url/download-url using an authorized account and open the newly issued URL.
+1. Sign in and select a file with an optional description; the destination folder belongs to the current account.
+2. The frontend sends POST /api/documents/upload as multipart with file, metadata, requestId (UUID) and optional folderId. Use the current UI/DTO rather than guessing JSON fields.
+3. The backend checks permissions/quota, uploads using a separate object key and performs HEAD; metadata is committed only after all processing succeeds.
+4. After a lost response, retry the same requestId and file to retrieve the saved document; transaction failure rolls back data and attempts object cleanup. Inspect logs if cleanup fails.
+5. Obtain preview-url/download-url using an authorized account and open the new presigned GET URL. The legacy standalone metadata creation and upload-url APIs are blocked; do not follow the former direct browser PUT instructions.
 
 **Expected result:** the private object exists, metadata confirms the upload and unshared accounts are denied access. Previously signed URLs may remain usable until expiration; temporary credential expiration can invalidate them earlier.
 
 ## Common errors
 
-For HTTP 403, check the signing principal, policy, prefix, Region, headers and expiration. For CORS, compare the complete scheme/host/port origin and test in a browser. When metadata exists but the file is missing, do not treat the upload as complete; handle the pending allocation through the application workflow.
+For preview/download 403 errors, check the signing principal, policy, prefix, Region and URL expiration. For CORS, compare the complete scheme/host/port origin and test in a browser. For upload failures, inspect backend logs, PutObject/GetObject permissions and S3 connectivity. For HTTP 413, compare backend/Nginx multipart limits. Do not delete old failed records before checking their corresponding S3 objects.
 
 See [CORS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/cors.html) and [presigned URLs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html).
 

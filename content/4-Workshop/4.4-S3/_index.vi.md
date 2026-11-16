@@ -20,7 +20,7 @@ Ví dụ nhập tại S3 Console → Permissions → CORS (thay origin):
 [
   {
     "AllowedHeaders": ["*"],
-    "AllowedMethods": ["GET", "HEAD", "PUT"],
+    "AllowedMethods": ["GET", "HEAD"],
     "AllowedOrigins": ["https://YOUR_FRONTEND_HOST"],
     "ExposeHeaders": ["ETag"],
     "MaxAgeSeconds": 3600
@@ -29,6 +29,8 @@ Ví dụ nhập tại S3 Console → Permissions → CORS (thay origin):
 ~~~
 
 Trong Console nhập **mảng rule** như trên. File JSON dùng với AWS CLI có dạng object chứa CORSRules như mẫu repository. Nếu cần local, thêm đúng origin http://localhost:5500 hoặc http://127.0.0.1:5500 đang dùng. CORS không thay thế IAM và không tự làm bucket công khai.
+
+Luồng upload hiện tại đi qua backend nên không phụ thuộc CORS của S3; xem trước/tải xuống trực tiếp vẫn cần CORS phù hợp. Quyền PutObject thuộc IAM/bucket policy của backend. Cấu hình thực hành cũ tại H04 còn cho phép PUT; đây không phải yêu cầu cho upload hiện tại.
 
 ## 3. Cấu hình backend
 
@@ -40,17 +42,17 @@ Trong Console nhập **mảng rule** như trên. File JSON dùng với AWS CLI c
 
 ## 4. Kiểm tra luồng chuẩn
 
-1. Đăng nhập, tạo metadata qua POST /api/documents.
-2. POST /api/documents/{id}/upload-url; không tự đoán trường JSON, dùng giao diện/DTO của phiên bản đang chạy.
-3. Frontend PUT File tới URL S3, giữ nguyên header được ký.
-4. POST /api/documents/{id}/upload-complete; backend HEAD object và xác nhận kích thước.
-5. GET preview-url/download-url bằng tài khoản có quyền, mở URL mới được cấp.
+1. Đăng nhập, chọn tệp và mô tả tùy chọn tại giao diện; thư mục đích là thư mục của chính tài khoản.
+2. Frontend gửi POST /api/documents/upload dạng multipart gồm file, metadata, requestId (UUID) và folderId tùy chọn. Dùng giao diện/DTO hiện hành, không gửi JSON theo phỏng đoán.
+3. Backend kiểm tra quyền/hạn mức, tải lên S3 bằng object key riêng và HEAD object; metadata chỉ commit khi toàn bộ bước xử lý thành công.
+4. Khi mất phản hồi, thử lại cùng requestId và cùng tệp để nhận lại tài liệu đã lưu; lỗi giao dịch rollback dữ liệu và thử dọn object. Theo dõi log nếu dọn thất bại.
+5. GET preview-url/download-url bằng tài khoản có quyền, mở presigned GET mới được cấp. Hai API tạo metadata riêng và lấy upload-url cũ đã bị chặn; không dùng lại hướng dẫn PUT trực tiếp từ trình duyệt.
 
 **Kết quả mong đợi:** object private tồn tại, metadata xác nhận upload và tài khoản khác bị từ chối khi chưa được chia sẻ. URL ký trước có thể còn dùng được tới khi hết hạn; credential tạm hết hạn có thể làm URL hết hiệu lực sớm hơn.
 
 ## Lỗi thường gặp
 
-403: kiểm tra principal ký, policy, prefix, Region, header và URL hết hạn. CORS: so origin đầy đủ scheme/host/port; test từ browser. Metadata đã tạo nhưng file thiếu: không coi upload hoàn tất; xử lý allocation chờ theo luồng ứng dụng.
+403 khi xem/tải: kiểm tra principal ký, policy, prefix, Region và URL hết hạn. CORS: so origin đầy đủ scheme/host/port; test từ browser. Upload lỗi: kiểm tra log backend, quyền PutObject/GetObject và kết nối S3. HTTP 413: đối chiếu giới hạn multipart tại backend/Nginx. Không tự xóa bản ghi lỗi cũ khi chưa kiểm tra object S3 tương ứng.
 
 Tham khảo [CORS](https://docs.aws.amazon.com/AmazonS3/latest/userguide/cors.html) và [presigned URL](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-presigned-url.html).
 

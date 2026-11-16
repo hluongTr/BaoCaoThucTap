@@ -25,8 +25,12 @@ Repository hiện **không có bộ cài schema trống hoàn chỉnh**. Sử d�
 | 4 | 04_APPLY_cognito_identities.sql | Ánh xạ issuer/sub |
 | 5 | 05_APPLY_optional_contact_email.sql | Email liên hệ tùy chọn |
 | 6 | 06_APPLY_work_tasks.sql | Công việc và thông báo người nhận; thuộc bản cập nhật tháng 11 |
+| 7 | 07_APPLY_departments_avatars.sql | Phòng ban và avatar |
+| 8 | 08_APPLY_document_folders.sql | Cây thư mục tài liệu; tài liệu cũ ở thư mục gốc |
 
 Chỉ áp dụng bước còn thiếu sau khi sao lưu và preflight đúng database. Migration 04 và share-cognito-identities.sql là hai cách tạo cùng bảng, không chạy nối tiếp. MySQL DDL có thể tự commit; không coi một ROLLBACK là hoàn tác toàn bộ ALTER/CREATE.
+
+Migration 08 cần cho chức năng thư mục, khác với script dọn audit tùy chọn trong Back_end/db. MANAGER, Đã chia sẻ và ghi đè tệp không cần migration mới sau 07; vẫn phải có 08 nếu dùng chức năng thư mục.
 
 ## 4. Kết nối ứng dụng
 

@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="940" viewBox="0 0 1600 940" role="img" aria-labelledby="title desc">
+  <title id="title">CloudDocs — current application architecture</title>
+  <desc id="desc">Cognito authenticates the browser. Multipart uploads pass through the Spring Boot backend on EC2 to private S3. The backend commits MySQL metadata after upload confirmation. Authorized preview and download use presigned GET directly from the browser to S3. The account arrangement follows the workshop evidence; arrows describe the current source implementation.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto-start-reverse"><path d="M0 0 L8 4 L0 8Z" fill="#263746"/></marker>
+    <style>
+      text { font-family: Arial, sans-serif; fill: #172b3a; }
+      .heading { font-size: 27px; font-weight: 700; }
+      .group { font-size: 21px; font-weight: 700; }
+      .label { font-size: 19px; }
+      .small { font-size: 17px; }
+      .service { fill: #fff; stroke: #526979; stroke-width: 2; }
+      .line { fill: none; stroke: #263746; stroke-width: 2; marker-end: url(#arrow); }
+      .both { marker-start: url(#arrow); }
+      .dashed { stroke-dasharray: 7 6; }
+      .halo { paint-order: stroke; stroke: #fff; stroke-width: 8px; stroke-linejoin: round; }
+    </style>
+  </defs>
+  <rect width="1600" height="940" fill="#fff"/>
+  <text x="32" y="43" class="heading">CloudDocs Architecture</text>
+  <text x="32" y="74" class="small">Current source: backend upload / direct S3 preview and download</text>
+  <rect x="40" y="205" width="1520" height="660" rx="8" fill="#f8fafc" stroke="#526979" stroke-width="2"/>
+  <text x="62" y="239" class="group">AWS Cloud</text>
+  <rect x="90" y="385" width="745" height="435" rx="8" fill="#fff" stroke="#7a919e" stroke-width="2"/>
+  <text x="112" y="418" class="group">AWS Account — Tùng</text>
+  <text x="112" y="447" class="small">ap-southeast-1</text>
+  <rect x="1000" y="250" width="440" height="165" rx="8" fill="#fff" stroke="#7a919e" stroke-width="2"/>
+  <text x="1022" y="281" class="group">AWS Account — Sang</text>
+  <text x="1022" y="308" class="small">us-east-1</text>
+  <rect x="1000" y="570" width="440" height="250" rx="8" fill="#fff" stroke="#7a919e" stroke-width="2"/>
+  <text x="1022" y="601" class="group">AWS Account — Lương</text>
+  <text x="1022" y="630" class="small">ap-southeast-1</text>
+  <rect x="470" y="95" width="340" height="80" rx="10" class="service"/>
+  <text x="640" y="127" text-anchor="middle" class="group">Frontend / Browser</text>
+  <text x="640" y="154" text-anchor="middle" class="small">HTML / CSS / JavaScript</text>
+  <text x="130" y="135" class="label">ADMIN / MANAGER / USER</text>
+  <path d="M390 135 H460" class="line"/>
+  <rect x="1080" y="329" width="280" height="60" rx="8" fill="#eee5ff" stroke="#8652bd" stroke-width="2"/>
+  <text x="1220" y="366" text-anchor="middle" class="group">Amazon Cognito</text>
+  <path d="M810 158 H1220 V320" class="line both"/>
+  <text x="945" y="184" class="label halo">1. Code + PKCE / access token</text>
+  <path d="M810 118 H1505 V724 H1370" class="line both"/>
+  <text x="970" y="105" class="label halo">5. Direct preview / download (presigned GET)</text>
+  <rect x="420" y="500" width="340" height="100" rx="8" fill="#fff0de" stroke="#d18424" stroke-width="2"/>
+  <text x="590" y="535" text-anchor="middle" class="group">Amazon EC2</text>
+  <text x="590" y="564" text-anchor="middle" class="label">Nginx / Spring Boot REST API</text>
+  <text x="590" y="588" text-anchor="middle" class="small">JWT, permissions, quota, tasks</text>
+  <path d="M530 175 V490" class="line"/>
+  <text x="265" y="280" class="label halo">2. REST + Bearer token</text>
+  <text x="265" y="309" class="label halo">Multipart upload / replacement</text>
+  <path d="M710 500 V175" class="line"/>
+  <text x="727" y="341" class="label halo">4. Authorized</text>
+  <text x="727" y="368" class="label halo">presigned GET URL</text>
+  <path d="M760 520 H940 V359 H1070" class="line dashed"/>
+  <text x="820" y="474" class="small halo">Validate JWT / JWKS</text>
+  <rect x="420" y="705" width="340" height="85" rx="8" fill="#e6efff" stroke="#447ac2" stroke-width="2"/>
+  <text x="590" y="739" text-anchor="middle" class="group">Amazon RDS / MySQL</text>
+  <text x="590" y="769" text-anchor="middle" class="small">Metadata, roles, folders, audit</text>
+  <path d="M590 600 V695" class="line both"/>
+  <text x="610" y="641" class="small halo">Commit metadata after</text>
+  <text x="610" y="669" class="small halo">successful S3 confirmation</text>
+  <rect x="1080" y="674" width="280" height="100" rx="8" fill="#edf7df" stroke="#669d2f" stroke-width="2"/>
+  <text x="1220" y="712" text-anchor="middle" class="group">Amazon S3</text>
+  <text x="1220" y="741" text-anchor="middle" class="label">Private documents</text>
+  <text x="1220" y="764" text-anchor="middle" class="small">Unique upload attempt keys</text>
+  <path d="M760 565 H930 V724 H1070" class="line"/>
+  <text x="820" y="545" class="small halo">3. Backend PutObject</text>
+  <text x="821" y="651" class="small halo">HeadObject / DeleteObject</text>
+  <path d="M810 112 H1500 V724 H1370" class="line"/>
+  <text x="1020" y="97" class="label halo">5. Browser GET: preview / download</text>
+  <rect x="130" y="510" width="210" height="75" rx="8" fill="#fff0f0" stroke="#c76666" stroke-width="2"/>
+  <text x="235" y="541" text-anchor="middle" class="group">IAM Role</text>
+  <text x="235" y="568" text-anchor="middle" class="small">EC2 instance profile</text>
+  <path d="M340 548 H410" class="line dashed"/>
+  <path d="M235 585 V804 H1055 V760 H1070" class="line dashed"/>
+  <text x="290" y="795" class="small halo">Role policy + cross-account S3 bucket policy</text>
+  <text x="55" y="898" class="small">Account arrangement follows workshop evidence. Application flows describe current source; deployment must be verified per commit/JAR.</text>
+  <text x="55" y="925" class="small">Upload rollback attempts object cleanup; MySQL and S3 have no distributed transaction. Previously issued GET URLs can remain valid until expiry.</text>
+</svg>

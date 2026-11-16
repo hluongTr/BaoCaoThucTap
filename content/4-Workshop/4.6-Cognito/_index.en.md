@@ -28,6 +28,8 @@ The backend validates the JWT signature, issuer, validity period, token_use=acce
 
 New accounts receive USER. Review Back_end/db/bootstrap-cognito-admin.sql to bootstrap the first ADMIN; do not arbitrarily edit shared database data. The template defaults to NULL targets/ROLLBACK so the operator can inspect it first.
 
+ADMIN/MANAGER/USER roles are managed by the application in MySQL, not inferred from Cognito status. MANAGER requires an assigned department; department preview follows the owner's current department and does not automatically grant download/edit/share/delete permissions.
+
 ## 4. Testing
 
 Test sign-in, callback, GET /api/auth/me and logout. Missing, invalid or expired tokens must be rejected; USER must not call administrative APIs; locked/DELETED accounts must be denied business access. Logout does not instantly invalidate every access-token copy; document the actual behavior accurately.
@@ -64,6 +66,6 @@ Open Branding → Domain and use the pool domain to synchronize the application 
 
 ### S06. Cognito test users
 
-Open Users to inspect accounts, Email verified, Confirmation status and Enabled status. CloudDocs ADMIN/USER roles are managed in application data and cannot be inferred from Cognito Confirmed status.
+Open Users to inspect accounts, Email verified, Confirmation status and Enabled status. CloudDocs ADMIN/MANAGER/USER roles are managed in application data and cannot be inferred from Cognito Confirmed status.
 
 ![S06. Cognito test users](/images/workshop-evidence/02-sang-cognito/s06-cognito-test-users.png)

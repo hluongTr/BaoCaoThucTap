@@ -54,6 +54,7 @@ Ví dụ **bên trong server HTTPS đã cấu hình chứng chỉ hợp lệ** (
 ~~~nginx
 root /var/www/clouddocs;
 index index.html;
+client_max_body_size 101m;
 
 location / {
     try_files $uri $uri/ =404;
@@ -65,6 +66,8 @@ location /api/ {
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 }
 ~~~
+
+Upload và ghi đè đi qua backend. Giới hạn Nginx 101 MiB dành cho tệp tối đa 100 MiB cộng phần multipart; đối chiếu giới hạn Spring Boot tương ứng. Thử upload qua đúng origin triển khai để phát hiện HTTP 413 và timeout trước khi nghiệm thu.
 
 Copy **nội dung FrontEnd** vào web root ở ví dụ này. Nếu callback dùng prefix /FrontEnd/, cấu hình thư mục/Nginx phải bảo toàn prefix đó; không chỉ sửa Cognito một phía. Đặt API_BASE theo hostname/backend thật. Kiểm tra nginx -t trước reload. Cổng 80 chuyển hướng HTTPS theo chính sách môi trường; hướng dẫn này không giả định đã có tên miền/chứng chỉ.
 

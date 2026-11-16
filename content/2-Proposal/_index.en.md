@@ -13,7 +13,7 @@ This section presents **CloudDocs — Enterprise document management on the AWS 
 
 ### 1. Executive summary
 
-CloudDocs centralizes documents and work-processing workflows in a web application. ADMIN manages accounts, documents and announcements; USER manages owned or shared documents. Java 21/Spring Boot 3.5.6 provides REST APIs and authorization; HTML/CSS/JavaScript provides the frontend; MySQL stores metadata, sharing relationships, quotas and business audit records. Files are stored in private S3, with authentication through a Cognito User Pool.
+CloudDocs centralizes documents and work-processing workflows in a web application. ADMIN administers the system; MANAGER monitors documents and assigns work within their department; USER manages owned or shared documents and performs assigned tasks. Java 21/Spring Boot 3.5.6 provides REST APIs and authorization; HTML/CSS/JavaScript provides the frontend; MySQL stores metadata, sharing relationships, quotas and business audit records. Files are stored in private S3, with authentication through a Cognito User Pool.
 
 The target architecture uses EC2 for the application and Nginx, RDS MySQL for the database and an IAM role for S3 access. The application uses S3 for documents, Cognito for authentication and MySQL for business data.
 
@@ -25,18 +25,18 @@ Documents scattered across personal devices or chat channels are difficult to fi
 
 *Solution*
 
-CloudDocs organizes documents by metadata and department and supports search/filtering, preview, download, permission-based sharing, favorites and trash. The backend checks permissions before issuing time-limited URLs; files move directly between the browser and S3. MySQL stores business data and audit records. Assignment creation, report submission, approval and change requests are extensions available in the early-November release.
+CloudDocs organizes documents by metadata, department and folder hierarchy and supports search/filtering, preview, download, permission-based sharing, favorites and trash. New uploads and content replacements pass through the backend for authorization, quota checks and S3 storage; preview/download use presigned GET URLs issued after authorization. MySQL stores business data and audit records. The current release includes assignments, report submission, approval/change requests, department management and a Sent shares page for changing/revoking permissions.
 
 *Benefits and return on investment (ROI)*
 
 - Reduce manual searching and sharing; measure the time required for the same scenario before and after adoption.
-- Separate file contents from metadata for clearer data management and fewer file transfers through the backend.
+- Separate file contents from metadata for clearer data management; direct S3 preview/download reduces backend file transfer for read operations.
 - Use trash and audit records to handle mistakes; apply account quotas to control allocations.
 - Financial ROI and savings rates have not been measured. Costs are modeled from assumptions and compared with Billing during deployment.
 
 ### 3. Solution architecture
 
-![CloudDocs architecture](/images/clouddocs-architecture-proposal.png)
+![CloudDocs architecture](/images/clouddocs-architecture-current.svg)
 
 *AWS services used or planned for operation*
 
@@ -44,7 +44,7 @@ CloudDocs organizes documents by metadata and department and supports search/fil
 | --- | --- | --- |
 | Compute | Amazon EC2, Nginx | Application server environment; EC2 connectivity has been established |
 | Database | Amazon RDS for MySQL | Metadata, users, permissions and audit; RDS MySQL connectivity has been established |
-| Storage | Amazon S3 | Private bucket, signed PUT/GET and object confirmation; integrated in the code |
+| Storage | Amazon S3 | Private bucket; backend upload/object confirmation and presigned GET for preview/download; integrated in the code |
 | Identity | Amazon Cognito User Pool | PKCE sign-in and access token issuance; integrated in the code |
 | Security/network | IAM Role, VPC, Security Group | Resource permissions and network restrictions configured per environment |
 | Operations | CloudWatch, Budgets | Resource monitoring, log collection and budget tracking |
@@ -53,10 +53,19 @@ CloudDocs organizes documents by metadata and department and supports search/fil
 
 - **Frontend:** static web interface; the Cognito public client has no client secret. Configure callback, logout and API_BASE for each environment.
 - **Backend:** validate JWTs, read current roles/status from MySQL, check owner_id and document permissions, and manage upload state and quotas.
-- **RDS/MySQL:** store users, documents, permissions, favorites, notifications, audit and work_tasks according to the current schema.
-- **S3:** UUID object keys; original names remain in metadata. Workflow: metadata → signed PUT → S3 PUT → upload-complete/HEAD; signed GET is issued after authorization.
-- **Cognito:** link identities by issuer/sub rather than email; distinguish ADMIN/USER system roles from OWNER/VIEW/DOWNLOAD/EDIT document permissions.
+- **RDS/MySQL:** store users, documents, permissions, favorites, notifications, audit, work_tasks, departments, avatars and document_folders according to the current schema.
+- **S3:** separate object keys for each upload attempt; original names remain in metadata. Workflow: multipart → backend authorization/quota checks → S3 upload and confirmation → metadata commit; presigned GET is issued after authorization. Account-scoped `requestId` supports retrying a lost response without duplicating a previously successful upload. On transaction failure, the application rolls back data and attempts object cleanup; S3/MySQL have no distributed transaction, so logs must still be checked for leftover objects.
+- **Cognito:** link identities by issuer/sub rather than email; distinguish ADMIN/MANAGER/USER system roles from ownership and VIEW/DOWNLOAD/EDIT sharing levels.
 - **Legacy local workflow:** local file endpoints remain for compatibility. The current frontend uses S3; this does not imply that every historical file has been migrated.
+
+| Business scope | USER | MANAGER | ADMIN |
+| --- | --- | --- | --- |
+| Documents | Owned or shared | Same as USER, plus preview of documents owned by members of the same department | System-wide |
+| Assignment | Perform assigned tasks | Assign to active USER accounts in the same department | Assign to active USER/MANAGER accounts |
+| Report review | No | Tasks they assigned | Tasks they assigned |
+| Account, role and department management | No | No | Yes |
+
+Department-based preview for MANAGER does not automatically grant download, edit, share or delete permissions. Folders belong to individual accounts; moving files preserves S3 keys, shares and favorites. Content replacement preserves the document ID and existing relationships; report documents are protected according to task status.
 
 ### 4. Technical implementation
 
@@ -66,7 +75,7 @@ CloudDocs organizes documents by metadata and department and supports search/fil
 2. Develop the ERD, backend/frontend and metadata APIs; manage source code with Git.
 3. Integrate private S3, CORS, presigned URLs, sharing and audit; prepare test cases.
 4. Prepare EC2/RDS, the IAM role, Nginx configuration and environment variables.
-5. Integrate Cognito and run integration tests according to actual progress; extend quotas, trash and work-task workflows in the following stage.
+5. Integrate Cognito and run integration tests; extend quotas, trash, tasks, the MANAGER role, departments and folders. These functions exist in the current source; evidenced results and remaining verification are summarized in section 4.8.
 
 *Technical requirements*
 
@@ -137,10 +146,11 @@ Retain the previous build, database backup and controlled environment configurat
 
 *Technical improvements*
 
-- Demonstrate sign-in, upload, preview/download, sharing/revocation and audit using both system roles.
+- Demonstrate sign-in, upload, preview/download, sharing/revocation and audit; verify ADMIN/MANAGER/USER scopes.
 - Verify quotas, trash, restoration and permanent deletion against metadata/S3.
 - Demonstrate assignments, report submission, pending approval, change requests and late submission in the extended release.
 - Provide deployment instructions, environment configuration and test scenarios matching the actual source code.
+- Check folders, department management, Sent shares and content replacement against the permission matrix; distinguish implemented functions from results verified in practice.
 
 *Long-term value*
 
